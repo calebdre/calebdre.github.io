@@ -13,7 +13,7 @@ In an attempt to be more developer friendly and to reach out to the tech communi
  
 ### HarmanSDK Util
 
-In the sample app that Harman provides, there is a `Util.java` file. It's incredibly useful because it abstracts away lots of functions for interacting with their SDK. We'll definitely be using it in this tutorial - [find the code for that here](the code url) (renamed to `HarmanSDKUtil.java`)
+In the sample app that Harman provides, there is a `Util.java` file. It's incredibly useful because it abstracts away lots of functions for interacting with their SDK. We'll definitely be using it in this tutorial - [find the code for that here](https://github.com/cjds/wirelessomnitutorial/blob/master/Util.java) (renamed to `HarmanSDKUtil.java` for this tutorial)
   
 ### Step 1: Pairing the speakers
 The first thing you have to do is download the HKController app onto your phone and pair the speakers. 
