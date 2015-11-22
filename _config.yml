@@ -8,16 +8,13 @@ name: Caleb Lewis
 # Short bio or description (displayed in the header)
 description: Engineer by day, Hacker by night (after work)
 title: Engineer by day, Hacker by night (after work)
-# URL of your avatar or profile pic (you could use your GitHub profile pic)
-avatar: https://avatars3.githubusercontent.com/u/3318929?v=3&s=460
-
 
 # Navigation
 nav:
   - name:    "Github"
     href:    "http://github.com/calebdre"
   - name:    "Contact me"
-    href:    "mailti:caleb_dre@yahoo.com"
+    href:    "mailto:caleb_dre@yahoo.com"
 
 # Your website URL (e.g. http://barryclark.github.io or http://www.barryclark.co)
 # Used for Sitemap.xml and your RSS feed
@@ -33,7 +30,7 @@ baseurl: ""
 # !! You don't need to change any of the configuration flags below !!
 #
 
-markdown: redcarpet
+markdown: rdiscount
 highlighter: pygments
 permalink: /:title/
 
