@@ -293,7 +293,10 @@ tbody tr:nth-child(odd) th {
     font-size: 1rem;
     font-weight: 600;
     text-transform: uppercase;
-    
+	
+    &-subtitle{
+	  font-size: .75rem;
+  	}
     a {
       color: #333;
       
@@ -305,9 +308,9 @@ tbody tr:nth-child(odd) th {
   }
   
   &-subtitle{
-	  font-size: .75rem;
+	  font-weight:100;
+	  font-size: 1.5rem;
   }
-  
   .masthead-nav {
     margin-bottom: 2rem;
     
