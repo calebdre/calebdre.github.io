@@ -23,7 +23,8 @@ The process is pretty straightforward. Here's what you will be doing *(note that
 *  your phone will connect to the speaker  
 *  the app will ask you to find the original network you were connected to (your home network) so that it can tell the speaker to connect to it too.   
 *  after about 5-20, the speaker's light should be a solid white color and be connected to your wifi network.   
-*  your phone can now connect directly to the speaker and controlit  
+*  your phone can now connect directly to the speaker and control it  
+    
 > Note: when you selecting your home network after selecting the speaker to connect, You might not be able to find yours. Just press cancel and choose the speaker again. It'll show up eventually.
 
 ### Step 2: Setting up the app
