@@ -32,7 +32,7 @@ Download, unzip it, go to the `/lib` directory and move the `HKWirelessHD.jar` f
   
 After it's there, add this line to the dependancies section of your build.gradle file:   
 ```
-compile files('libs/HKWirelessHD.jar')
+	compile files('libs/HKWirelessHD.jar')
 ```
 
 This gives you access to all of the classes that Harman provides for your apps to use to interact with their speakers.
@@ -57,21 +57,21 @@ I'm not sure what the key is for, but that's what the method accepts. Other than
 Next, you have to add all the speakers connected to the same network as your device into an internal device list located inside the `HarmanSDKUtil` class. Do that with this line:  
   
 ```
-harmanSDKUtil.initDeviceInfor();
+	harmanSDKUtil.initDeviceInfor();
 ```
 
  > Note that it might not add the devices on the first call work the first time. Your best bet is to have a system set up to where the user can easily retry and call this method again.
  
  Now you can get a list of all of the connected devices (devices that are on the same wifi network) with the `getDevices` method. Like so:  
  ```
- List<HarmanSDKUtil.DeviceData> devices = harmanSDKUtil.getDevices();
+ 	List<HarmanSDKUtil.DeviceData> devices = harmanSDKUtil.getDevices();
  ```
  
 The `DeviceData` object doesn't contain much besides an identifier for the device. You probably won't have to mess with it.   
 After getting the connected devices, you can add it to the session:  
   
 ```
-harmanSDKUtil.addDeviceToSession(device.deviceObj.deviceId);
+	harmanSDKUtil.addDeviceToSession(device.deviceObj.deviceId);
 ```
 
 All devices added to the session will be controlled together. (there's also a `removeDeviceFromSession` method)   
@@ -79,55 +79,55 @@ All devices added to the session will be controlled together. (there's also a `r
 ### Step 4: Playing some music
 In order to start playing music, we need an instance of the `AudioCodecHandler` class:  
 ```
-AudioCodecHandler pcmCodec = new AudioCodecHandler();
+	AudioCodecHandler pcmCodec = new AudioCodecHandler();
 ```
 And now you can play music like so:
 ```
-String songName = songUri.substring(songUri.lastIndexOf("/"));
-pcmCodec.playCAFFromCertainTime(songUri, songName, 0);
+	String songName = songUri.substring(songUri.lastIndexOf("/"));
+	pcmCodec.playCAFFromCertainTime(songUri, songName, 0);
 ```
 The `songUri` is a string form of the url to the song on the device. Here's an example:  
 ```
-String songUri = "/storage/emulated/0/Music/12 Cece's Interlude.mp3";
+	String songUri = "/storage/emulated/0/Music/12 Cece's Interlude.mp3";
 ```
 Here's a function that gets the song info and songs from your device:
 ```
-public class SongSearch{
-    public class Song{
-        public String title, artist, uri;
-        
-        public Song(String title, String artist, String uri){
-            this.title = title;
-            this.artist = artist;
-            this.uri = uri;
-        }
-    }
+	public class SongSearch{
+		public class Song{
+			public String title, artist, uri;
+			
+			public Song(String title, String artist, String uri){
+				this.title = title;
+				this.artist = artist;
+				this.uri = uri;
+			}
+		}
 
-    public List<Song> searchSongs(Context context, String term) {
-        ArrayList<Song> songList = new ArrayList<>();
-        term = term.trim(); // removes the whitespace from the string
-        Cursor musicCursor = context.getContentResolver().query(
-                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                null,
-                MediaStore.Audio.Media.TITLE + " LIKE ? or " + MediaStore.Audio.Media.ARTIST + " LIKE ?",
-                new String[]{"%" + term + "%", "%" + term + "%"},
-                MediaStore.Audio.Media.TITLE + " ASC");
-
-        int titleColumn = musicCursor.getColumnIndex(android.provider.MediaStore.Audio.Media.TITLE);
-        int artistColumn = musicCursor.getColumnIndex(android.provider.MediaStore.Audio.Media.ARTIST);
-        int uriColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.DATA);
-
-        while (musicCursor.moveToNext()) {
-            String uri = musicCursor.getString(uriColumn);
-            String title = musicCursor.getString(titleColumn);
-            String artist = musicCursor.getString(artistColumn);
-            
-            songList.add(new Song(uri, title, artist));
-        }
-        
-        return songList;
-    }
-}
+		public List<Song> searchSongs(Context context, String term) {
+			ArrayList<Song> songList = new ArrayList<>();
+			term = term.trim(); // removes the whitespace from the string
+			Cursor musicCursor = context.getContentResolver().query(
+					MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+					null,
+					MediaStore.Audio.Media.TITLE + " LIKE ? or " + MediaStore.Audio.Media.ARTIST + " LIKE ?",
+					new String[]{"%" + term + "%", "%" + term + "%"},
+					MediaStore.Audio.Media.TITLE + " ASC");
+	
+			int titleColumn = musicCursor.getColumnIndex(android.provider.MediaStore.Audio.Media.TITLE);
+			int artistColumn = musicCursor.getColumnIndex(android.provider.MediaStore.Audio.Media.ARTIST);
+			int uriColumn = musicCursor.getColumnIndex(MediaStore.Audio.Media.DATA);
+	
+			while (musicCursor.moveToNext()) {
+				String uri = musicCursor.getString(uriColumn);
+				String title = musicCursor.getString(titleColumn);
+				String artist = musicCursor.getString(artistColumn);
+				
+				songList.add(new Song(uri, title, artist));
+			}
+			
+			return songList;
+		}
+	}
 ```
 This class has a method that accepts a string and uses it to search the songs on a user's phone. Heres's a rundown of how it works:
 - gets the content resolver and queries the media on the device in a very sql-esque manner
@@ -137,10 +137,10 @@ This class has a method that accepts a string and uses it to search the songs on
 
 So now that we have songs, we can play them just creating a method that accepts the uri:
 ```
-public void play(String songUri){
-    String songName = songUri.substring(songUri.lastIndexOf("/"));
-    pcmCodec.playCAFFromCertainTime(songUri, songName, 0);
-}
+	public void play(String songUri){
+		String songName = songUri.substring(songUri.lastIndexOf("/"));
+		pcmCodec.playCAFFromCertainTime(songUri, songName, 0);
+	}
 ```
 
 > **This is extremely important so listen up:** only one application can use the SDK at a time. So if you're getting an error saying ` A component of name 'OMX.qcom.audio.decoder.aac' already exists, ignoring this one.`, it's because another app (probably the HKController app) is using the SDK. Kill that app, and your should start working.
@@ -151,7 +151,7 @@ Check out the other methods on the `AudioCodecHandler` object! You can pause and
 ### Step 5: Reacting to Music events
 So now that we have the music playing, we need to do stuff when certain things happen. Luckily the SDK has an `HKListener` class. Register it by using:
 ```
-harmanSDKUtil.hkwireless.registerHKWirelessControllerListener(new HKWirelessListener() {
+    harmanSDKUtil.hkwireless.registerHKWirelessControllerListener(new HKWirelessListener() {
             @Override
             public void onDeviceStateUpdated(long l, int i) {
                 // 
