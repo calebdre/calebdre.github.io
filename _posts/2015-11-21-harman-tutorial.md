@@ -17,7 +17,7 @@ In the sample app that Harman provides, there is a `Util.java` file. It's incred
   
 ### Step 1: Pairing the speakers
 The first thing you have to do is download the HKController app onto your phone and pair the speakers. 
-The process is pretty straightforward. Here's what you will be doing *(note that this is manual mode)*:
+The process is pretty straightforward. Here's what you will be doing *(note that this is manual mode)*:  
 - the speaker will emit its own wifi network. You'll choose your speaker from a list of omni networks
 - your phone will connect to the speaker
 - the app will ask you to find the original network you were connected to (your home network) so that it can tell the speaker to connect to it too. 
@@ -123,7 +123,7 @@ Here's a function that gets the song info and songs from your device:
 		}
 	}
   
-This class has a method that accepts a string and uses it to search the songs on a user's phone. Heres's a rundown of how it works:
+This class has a method that accepts a string and uses it to search the songs on a user's phone. Heres's a rundown of how it works:  
 - gets the content resolver and queries the media on the device in a very sql-esque manner
 - gets the indexes of the the columns of the information that we want. (check out the [inherited constants](http://developer.android.com/reference/android/provider/MediaStore.Audio.Media.html#inhconstants) of the `MediaStore.Audio.Media` class to find a complete list of the fields that are available to you.)
 - iterates over the results of the `ContentResolver` query to get the information we want (using the column ids we got earlier), creates a `Song` object with them, and adds it to a list
