@@ -22,7 +22,7 @@ The process is pretty straightforward. Here's what you will be doing *(note that
 *  the speaker will emit its own wifi network. You'll choose your speaker from a list of omni networks
 *  your phone will connect to the speaker  
 *  the app will ask you to find the original network you were connected to (your home network) so that it can tell the speaker to connect to it too.   
-*  after about 5-20, the speaker's light should be a solid white color and be connected to your wifi network.   
+*  after about 5-20 seconds, the speaker's light should be a solid white color and be connected to your wifi network.   
 *  your phone can now connect directly to the speaker and control it  
     
 > Note: when you selecting your home network after selecting the speaker to connect, You might not be able to find yours. Just press cancel and choose the speaker again. It'll show up eventually.
@@ -38,7 +38,7 @@ After it's there, add this line to the dependancies section of your build.gradle
   
 This gives you access to all of the classes that Harman provides for your apps to use to interact with their speakers.
   
-Next, create a `jniLibs` folder in your `/app/src` folder and copy the `/examples/wirelessomni/libs/armeabi/` and `/examples/wirelessomni/libs/armeabi-v7a/` folders from the example into it. These are `.so` files that I have no idea why are needed, but the SDK will complain if you don't have them.  
+Next, create a `jniLibs` folder in your `/app/src` folder and copy the `/examples/wirelessomni/libs/armeabi` and `/examples/wirelessomni/libs/armeabi-v7a` folders from the example into it. These are `.so` files that I have no idea why are needed, but the SDK will complain if you don't have them.  
 
 ### Step 3: Initialize the SDK & connect to the speaker
 Now you need to initialixe the SDK so you can do stuff with the speaker. *(remember `Util.java` has been renamed to `HarmanSDKUtil.java`)*.  
