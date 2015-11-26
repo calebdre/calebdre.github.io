@@ -43,7 +43,7 @@ Next, create a `jniLibs` folder in your `/app/src` folder and copy the `/example
 ### Step 3: Initialize the SDK & connect to the speaker
 Now you need to initialixe the SDK so you can do stuff with the speaker. *(remember `Util.java` has been renamed to `HarmanSDKUtil.java`)*.  
   
-``` java
+{% highlight java %}
     HarmanSDKUtil harmanSDKUtil = HarmanSDKUtil.getInstance()
     if (!harmanSDKUtil.hkwireless.isInitialized()) {
         harmanSDKUtil.hkwireless.initializeHKWirelessController("some key");
@@ -53,56 +53,56 @@ Now you need to initialixe the SDK so you can do stuff with the speaker. *(remem
             // init failed :( 
         }
     }
-```
+{% endhighlight %}
   
 I'm not sure what the key is for, but that's what the method accepts. Other than that, pretty straightforward right?
   
 Next, you have to add all the speakers connected to the same network as your device into an internal device list located inside the `HarmanSDKUtil` class. Do that with this line:    
   
-``` java
+{% highlight java %}
 	harmanSDKUtil.initDeviceInfor();
-```
+{% endhighlight %}
   
  > Note that it might not add the devices on the first call work the first time. Your best bet is to have a system set up to where the user can easily retry and call this method again.
  
  Now you can get a list of all of the connected devices (devices that are on the same wifi network) with the `getDevices` method. Like so:    
   
-``` java
+{% highlight java %}
 	List<HarmanSDKUtil.DeviceData> devices = harmanSDKUtil.getDevices();
-```
+{% endhighlight %}
   
 The `DeviceData` object doesn't contain much besides an identifier for the device. You probably won't have to mess with it.   
 After getting the connected devices, you can add it to the session:  
   
-``` java
+{% highlight java %}
 	harmanSDKUtil.addDeviceToSession(device.deviceObj.deviceId);
-```
+{% endhighlight %}
   
 All devices added to the session will be controlled together. (there's also a `removeDeviceFromSession` method)   
 
 ### Step 4: Playing some music
 In order to start playing music, we need an instance of the `AudioCodecHandler` class:    
   
-``` java
+{% highlight java %}
 	AudioCodecHandler pcmCodec = new AudioCodecHandler();
-```
+{% endhighlight %}
   
 And now you can play music like so:  
   
-``` java
+{% highlight java %}
 	String songName = songUri.substring(songUri.lastIndexOf("/"));
 	pcmCodec.playCAFFromCertainTime(songUri, songName, 0);
-```
+{% endhighlight %}
   
 The `songUri` is a string form of the url to the song on the device. Here's an example:    
   
-``` java
+{% highlight java %}
 	String songUri = "/storage/emulated/0/Music/12 Cece's Interlude.mp3";
-```
+{% endhighlight %}
   
 Here's a function that gets the song info and songs from your device:  
   
-``` java
+{% highlight java %}
 	public class SongSearch{
 		public class Song{
 			public String title, artist, uri;
@@ -139,7 +139,7 @@ Here's a function that gets the song info and songs from your device:
 			return songList;
 		}
 	}
-```
+{% endhighlight %}
   
 This class has a method that accepts a string and uses it to search the songs on a user's phone. Heres's a rundown of how it works:  
     
@@ -150,12 +150,12 @@ This class has a method that accepts a string and uses it to search the songs on
 
 So now that we have songs, we can play them just creating a method that accepts the uri:  
   
-``` java  
+{% highlight java %}  
 	public void play(String songUri){
 		String songName = songUri.substring(songUri.lastIndexOf("/"));
 		pcmCodec.playCAFFromCertainTime(songUri, songName, 0);
 	}
-```
+{% endhighlight %}
   
 
 > **This is extremely important so listen up:*+ only one application can use the SDK at a time. So if you're getting an error saying ` A component of name 'OMX.qcom.audio.decoder.aac' already exists, ignoring this one.`, it's because another app (probably the HKController app) is using the SDK. Kill that app, and your should start working.
@@ -166,7 +166,7 @@ Check out the other methods on the `AudioCodecHandler` object! You can pause and
 ### Step 5: Reacting to Music events
 So now that we have the music playing, we need to do stuff when certain things happen. Luckily the SDK has an `HKListener` class. Register it by using:  
   
-``` java
+{% highlight java %}
     harmanSDKUtil.hkwireless.registerHKWirelessControllerListener(new HKWirelessListener() {
             @Override
             public void onDeviceStateUpdated(long l, int i) {
@@ -198,7 +198,7 @@ So now that we have the music playing, we need to do stuff when certain things h
 	            // on no! Something went wrong :(
             }
         });
-```
+{% endhighlight %}
   
 Pretty straightforward right?
 
