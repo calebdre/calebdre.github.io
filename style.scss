@@ -231,8 +231,12 @@ pre code {
 img {
   display: block;
   max-width: 100%;
-  margin: 0 0 1rem;
+  margin:10px auto;
   border-radius: 5px;
+}
+
+blockquote img + p{
+	text-align: center;
 }
 
 table {
@@ -378,6 +382,7 @@ tbody tr:nth-child(odd) th {
     color: #333;
   }
 }
+
 
 .highlight .hll { background-color: #ffffcc }
 .highlight .c { color: #999988; font-style: italic } /* Comment */

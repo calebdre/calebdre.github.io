@@ -44,7 +44,7 @@ Next, create a `jniLibs` folder in your `/app/src` folder and copy the `/example
 Now you need to initialixe the SDK so you can do stuff with the speaker. *(remember `Util.java` has been renamed to `HarmanSDKUtil.java`)*.  
   
 {% highlight java %}
-    HarmanSDKUtil harmanSDKUtil = HarmanSDKUtil.getInstance()
+    HarmanSDKUtil harmanSDKUtil = HarmanSDKUtil.getInstance();
     if (!harmanSDKUtil.hkwireless.isInitialized()) {
         harmanSDKUtil.hkwireless.initializeHKWirelessController("some key");
         if (harmanSDKUtil.hkwireless.isInitialized()) {
@@ -168,36 +168,36 @@ So now that we have the music playing, we need to do stuff when certain things h
   
 {% highlight java %}
     harmanSDKUtil.hkwireless.registerHKWirelessControllerListener(new HKWirelessListener() {
-            @Override
-            public void onDeviceStateUpdated(long l, int i) {
-                // 
-            }
+		@Override
+		public void onDeviceStateUpdated(long l, int i) {
+			// 
+		}
 
-            @Override
-            public void onPlaybackStateChanged(int i) {
-				// the song was paused/stopped!!
-            }
+		@Override
+		public void onPlaybackStateChanged(int i) {
+			// the song was paused/stopped!!
+		}
 
-            @Override
-            public void onVolumeLevelChanged(long l, int i, int i1) {
-				// the volume changed!
-            }
+		@Override
+		public void onVolumeLevelChanged(long l, int i, int i1) {
+			// the volume changed!
+		}
 
-            @Override
-            public void onPlayEnded() {
-				// the song ended!
-            }
+		@Override
+		public void onPlayEnded() {
+			// the song ended!
+		}
 
-            @Override
-            public void onPlaybackTimeChanged(int i) {
-	            // someone scrubbed through the music!
-            }
+		@Override
+		public void onPlaybackTimeChanged(int i) {
+			// someone scrubbed through the music!
+		}
 
-            @Override
-            public void onErrorOccurred(int i, String s) {
-	            // on no! Something went wrong :(
-            }
-        });
+		@Override
+		public void onErrorOccurred(int i, String s) {
+			// on no! Something went wrong :(
+		}
+	});
 {% endhighlight %}
   
 Pretty straightforward right?

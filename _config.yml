@@ -30,7 +30,7 @@ baseurl: ""
 # !! You don't need to change any of the configuration flags below !!
 #
 
-markdown: rdiscount
+markdown: redcarpet
 highlighter: pygments
 permalink: /:title/
 
