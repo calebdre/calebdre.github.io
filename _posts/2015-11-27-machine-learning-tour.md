@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Machine Learning & Math
+title: Machine Learning Tour
 ---
    
 Machine Learning is a branch of computer science that studies the design of algorithms that can learn as you give it information. 
@@ -25,10 +25,28 @@ scenario.
   
 In order to write an algorithm like that, we need to determine how to compute the distance:    
 
-$$ \sum_{i=0}^N \lvert \frac {x - \overline{x}}{\sigma (x) } - y\_i \rvert $$
+$$ \sum_{i=0}^N \sqrt{(\frac {x - \overline{x}}{\sigma (x) })\^2 - y\_i\^2} $$
 
 where \\( x \\) is the value and \\( \overline{x} \\) is the arithmetic mean of feature \\( x \\)
-across the dataset 
+across the dataset. With this equation, we can create an algorithm by letting matrix \\( D = N \times P \\) represent our data where \\( P \\) scenarios \\( s\^1, ... , s\^P\\)
+where each senarion \\( s\^i \\) contains \\( N \\) features \\( s\^i = [ s\_1\^i , ... , s\_N\^i\\).  
+  
+We can let vector \\(r\\) store the output values of \\(M\\) nearest neighbors to query scenario \\(q\\). Let vector \\(o\\) 
+with length \\(P\\) accompeny the matrix, listing the output value \\(o\^i\\) for each scenario \\(s\^i\\). 
+Then wecan loop through the data set measuring the distance between the set and \\(q\\):  
+$$ \text{if } q \text{ is not set or } q < d(q,s\^i):q \rightarrow d(q,s\^i), t \rightarrow o\^i $$
+
+Then we calculate the arithmetic mean output across r like so:
+
+$$ \overline{r} = \frac1M \sum_{i=1}^M r\_i $$  
+Then return \\(\overline{r}\\) as the output value for the query scenario \\(q\\).  
+  
+Some example applications of KNN are any nearest neighbor based content retrieval type problems. I.E. 
+problems where we need to find the closest match of something. These types of problems include anything from image recognition to data mining.
+
+ 
+### 
+ 
 
 ##### Bibliography
 http://www.statsoft.com/Textbook/k-Nearest-Neighbors#classification  
