@@ -3,7 +3,7 @@ layout: post
 title: Machine Learning Tour
 ---
    
-Machine Learning is a branch of computer science that studies the design of algorithms who learn as you give it information. 
+Machine Learning is a branch of computer science that studies the design of algorithms which learn as you give it information. 
 The field is highly related to staticstics as these algorithms rely on statistics concepts. The basic premise is that we can feed
 the algorithm information, we can implement predictive modeling techniques into the algorithms so it 'learns.' When we
 give it new information it uses what it has 'learned' to make a prediction or perform another task.  
@@ -11,8 +11,8 @@ give it new information it uses what it has 'learned' to make a prediction or pe
 This blog post provides an overview of some machine learning concepts and equations in order to give a general understanding of
 what it entails. Let's get into it!
 
-### The K-Nearest Neighbor Algorithm (KNN)
-The KNN is one of the simplest machine learning algorithms. In order to achieve learning,
+### The K-Nearest Neighbor (KNN)
+The KNN algorithm is one of the simplest machine learning algorithms. In order to achieve learning,
 we measures the distance between a query (unknown) scenario and a set of known scenarios.
 Here's a graph to illustrate (plusses and minuses are types of outcomes):  
   
@@ -27,10 +27,10 @@ In order to write such an algorithm, we need to determine how to compute the dis
 
 $$ \sum_{i=0}^N \sqrt{(\frac {x - \overline{x}}{\sigma (x) })\^2 - y\_i\^2} $$
 
-where \\( x \\) is the value and \\( \overline{x} \\) is the arithmetic mean of feature \\( x \\)
+where \\( x \\) is the original value and \\( \overline{x} \\) is the arithmetic mean of feature \\( x \\)
 across the dataset. With this equation, we can create an algorithm by letting matrix \\( D = N \times P \\) 
 represent our data where \\( P \\) scenarios \\( s\^1, ... , s\^P\\) where each senarion \\( s\^i \\) 
-contains \\( N \\) features \\( s\^i = [ s\_1\^i , ... , s\_N\^i\\).  
+contains \\( N \\) features \\( s\^i = [ s\_1\^i , ... , s\_N\^i]\\).  
   
 We can let vector \\(r\\) store the output values of \\(M\\) nearest neighbors to query scenario \\(q\\). Let vector \\(o\\) 
 with length \\(P\\) accompeny the matrix, listing the output value \\(o\^i\\) for each scenario \\(s\^i\\). 
@@ -46,10 +46,29 @@ problems where we need to find the closest match of something. Such problems inc
 
 ### Support Vector Machine 
 SVMs (Supprt Vector Machine) are a bit more involed. This algorithm achieves learning by finding the best
-hyperplane that separates all data points of one class from those of another class.  
+hyperplane that separates all data points of one class from those of the other class. Support vectors are 
+the data points that are closest to the separating hyperplane. Here's an illustration:
+  
+> ![SVM illustration](../images/svm1.png)  
+
+We start putting together the algorithm by having \\(L\\) training points where each input \\(x\_i\\)
+has \\(D\\) attributes (i.e. is of dimensionality \\(D\\) and is in one of the two classes \\(y\_i = -1 \text{ or } +1\\),
+i.e. out training data is of the form:  
+$$ \lbrace x\_i ,y\_i \rbrace \text{ where } i = 1 ... L, y\_i \in \lbrace -1 , 1 \rbrace , x \in \Re \^D $$
+
+With this, we can implement an SVM by selecting variables \\(w\\) and \\(b\\) so that our training
+data can be described by \:
+$$ y\_i(x\_i \cdot w + b) - 1 \le 0 \text{   } \forall\_i $$
+
+Considering just the hyperplane, we can describe the planes \\(H\_1\\) and \\(H\_2\\) that lie on 
+the Support Vector points with:  
+$$ x\_i \cdot b \le +1 \text{   for} \\(H\_1\\)
+$$ x\_i \cdot b \ge -1 \text{   for} \\(H\_2\\)
+
+  
 
 ### Naive Bayes
-
+This algorithm is based on Bayes Theorum.  
 ##### Bibliography
 [Statsoft](http://www.statsoft.com/Textbook/k-Nearest-Neighbors#classification)  
 
