@@ -112,10 +112,10 @@ Where \\(c\\) is the outcome and \\(x\\) is the predictor. So:
 
 When we let  
 $$ D = \left[ n\^1\_{S\_1} \ldots n\^k\_{S\_d} \right] \text{ where } n\_p\^i \text{ is the outcome } n \text{ with the set of } S \text{ predictors } $$
-we can use this algorithm to find out which \\(n\\) that the query \\(Q\\) predictors can be classified as:  
+we can use this algorithm to find out which \\(n\\) that the query \\(q\\) predictors can be classified as:  
   
 * loop through each \\(n\^i\_S\\) in \\(D\\) calculating the probability rating and store them in set \\(R\\):
-$$ \prod_{i=1}^D Q\^{i-1} \cdot P(n\^i) $$
+$$ \prod_{i=1}^D \frac{P(q\^{i-1} | n) \cdot P(n)}{P(q)} $$
 * return the highest rating in \\(R\\)
 
 
