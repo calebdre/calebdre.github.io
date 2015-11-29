@@ -92,7 +92,76 @@ Now we can create an algorithm:
 * Determine the set of Support Vectors \\(S\\) by finding the indices such that \\(\alpha \gt 0\\)    
 * Each new point \\({x}'\\) is classified by evaluating \\({y}' = sgn(w \cdot {x}' + b)\\)  
 
-Applications of SVMs include pattern recognition and other classification type problems.
+Applications of SVMs include pattern recognition and other classification type problems. Here is an implementation
+of an SVM classifier:
+
+{% highlight python %}    
+import matplotlib.pyplot as plt
+from sklearn import datasets
+from sklearn import svm
+
+digits = datasets.load_digits()
+classifier = svm.SVC(C=100)
+
+x = digits.data[:-1]
+y = digits.target[:-1]
+
+classifier.fit(x,y)
+
+print("Prediction: ", classifier.predict(digits.data[-1])
+
+plt.imshow(digits.images[-1], cmap=plt.cm.gray_r, interpolation="nearest")
+plt.show()
+{% endhighlight %}
+
+Let's go through each line:
+{% highlight python %}    
+import matplotlib.pyplot as plt
+from sklearn import datasets
+from sklearn import svm
+{% endhighlight %}
+We're going to use [sci-kit learn](http://scikit-learn.org) to provide us the complicated 
+algorithm and sample data sets. We'll also use [matplotlib](http://matplotlib.org/)
+to show our results.
+
+{% highlight python %}
+digits = datasets.load_digits()
+classifier = svm.SVC(C=100)
+{% endhighlight %}
+sci-kit learn has a lot of data sets for us to play around with. We're going to use its
+digits data set. This set includes lists of coordinates for examples of what numbers look like.
+So when we give the SVM coordinates of numbers, it can tell us what number it is.  
+Then we set up the classifier to be used later on.  
+  
+{% highlight python %}
+x = digits.data[:-1]
+y = digits.target[:-1]
+
+classifier.fit(x,y)
+{% endhighlight %}
+
+`digits` has 1797 examples of numbers. Here, we set `x` equal to the coordinates of the numbers
+and `y` to the actual numbers. We save the last one from both, however, so that we can give it to the
+algorithm later to test whether or not it learned to recognize numbers or not. We then train the
+classifier by telling it to match each coordinate with each number. At this point we have
+essentially 'taught' the algorithm how to recognize numbers.
+
+{% highlight python %}
+print("Prediction: ", classifier.predict(digits.data[-1])
+
+plt.imshow(digits.images[-1], cmap=plt.cm.gray_r, interpolation="nearest")
+plt.show()
+{% endhighlight %}
+We now use pass the last coordinates that we had to the classifier's `predict` method and print it out
+in order to test whether or not the algorithm worked. The last two lines use matplotlib to show us
+and image of what the last coordinates had in order for us to look at it and find out if the number was
+what the algorithm said it was. Here's the result:
+
+> ![SVM Prediction](../images/svm3.png)
+(what the algorithm predicted)
+
+> ![SVM data](../images/svm2.png)
+(what we gave to the algorithm)
 
 ### Naive Bayes
 This algorithm is based on Bayes' rule, which states that if we know the probability \\(P(B\text{ }|\text{ }A)\\) 
@@ -118,7 +187,7 @@ we can use this algorithm to find out which \\(n\\) that the query \\(q\\) predi
 $$ \prod_{i=1}^D \frac{P(q\^{i-1} | n) \cdot P(n)}{P(q)} $$
 * return the highest rating in \\(R\\)
 
-
+### Conclusion
 
 ##### Bibliography
 [Statsoft](http://www.statsoft.com/Textbook/k-Nearest-Neighbors#classification)  
