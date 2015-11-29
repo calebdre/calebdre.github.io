@@ -62,13 +62,28 @@ $$ y\_i(x\_i \cdot w + b) - 1 \le 0 \text{   } \forall\_i $$
 
 Considering just the hyperplane, we can describe the planes \\(H\_1\\) and \\(H\_2\\) that lie on 
 the Support Vector points with:  
-$$ x\_i \cdot b \le +1 \text{   for} H\_1 $$
-$$ x\_i \cdot b \ge -1 \text{   for} H\_2 $$
+$$ x\_i \cdot b \le +1 \text{   for } H\_1 $$
+$$ x\_i \cdot b \ge -1 \text{   for } H\_2 $$
   
 The distances between the two planes and the hyperplane taken together is the SVM's margin. Our
 goal is to orient the hyperplaceto be as far from the Support Vectors as possible; we need to maximize
 the margin.  
   
+In order to do this, we need to solve these problems:  
+$$ \overset{\text{max}}{\alpha} \left[ \sum_{i=1}^L \alpha\_i - \frac12 \alpha\^T H\alpha \right] \text{ s.t. } \alpha\_i \ge 0 \text{ } \forall\_i$$  
+
+and:
+
+$$  \sum_{i=1}^L \alpha\_i y\_i = 0 $$
+
+Where \\(\alpha \text{ } (\alpha\_i \ge 0 \text{ } \forall\_i )\\) is a Lagrange multiplier. We do this because we need to find 
+a \\(\alpha\\) which maximizes and a \\(w\\) and \\(b\\) which minimizes. This, however, is a convex quadratic optimization problem,
+which we need a [Quadratic Programming solver to solve.](http://doc.cgal.org/latest/QP_solver/index.html) It will return
+\\(\alpha\\) and \\(w\\). We can find \\(b\\) by using the equation:
+
+$$ b = y\_s - \sum_{m\in S} \alpha\_m y\_m x\_m \cdot x\_s $$
+where \\(S\\) is the set of indices of the Support Vectors. It is determined by finding the indices \\(i\\) where
+\\(\alpha\_i \gt 0\\). 
 
 ### Naive Bayes
 This algorithm is based on Bayes Theorum.  
