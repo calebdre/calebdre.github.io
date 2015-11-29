@@ -27,8 +27,8 @@ In order to write such an algorithm, we need to determine how to compute the dis
 
 $$ \sum_{i=0}^N \sqrt{(\frac {x - \overline{x}}{\sigma (x) })\^2 - y\_i\^2} $$
 
-where \\( x \\) is the original value and \\( \overline{x} \\) is the arithmetic mean of feature \\( x \\)
-across the dataset. With this equation, we can create an algorithm by letting matrix \\( D = N \times P \\) 
+where \\( x \\) is the original value, \\( \overline{x} \\) is the arithmetic mean of feature \\( x \\)
+across the dataset, and \\(\sigma (x)\\) is its standard deviation. With this equation, we can create an algorithm by letting matrix \\( D = N \times P \\) 
 represent our data where \\( P \\) scenarios \\( s\^1, \ldots , s\^P\\) where each senarion \\( s\^i \\) 
 contains \\( N \\) features \\( s\^i = [ s\_1\^i , \ldots , s\_N\^i]\\).  
   
@@ -44,6 +44,170 @@ Return \\(\overline{r}\\) as the output value for the query scenario \\(q\\).
 Some example applications of KNN are any nearest neighbor based content retrieval type problems. I.E. 
 problems where we need to find the closest match of something. Such problems include anything from image recognition to data mining.
 
+Here is an implementation of KNN [find the used dataset here](https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data):
+{% highlight python %} 
+import csv
+import math
+import operator
+ 
+def loadDataset(filename):
+	trainingScenarios=[]
+	
+	with open(filename, 'rb') as csvfile:
+	    lines = csv.reader(csvfile)
+	    dataset = list(lines)
+		
+	    for x in range(len(dataset)-1):
+	        for y in range(4):
+	            dataset[x][y] = float(dataset[x][y])
+	            trainingScenarios.append(dataset[x])
+				
+ 	return trainingScenarios
+	 
+def findEuclideanDistance(point1, point2, length):
+	distance = 0
+	
+	for x in range(length):
+		distance += pow((point1[x] - point2[x]), 2)
+		
+	return math.sqrt(distance)
+ 
+def findKNearestNeighbors(trainingScenarios, queryScenario, k):
+	distances = []
+	length = len(queryScenario)-1
+	
+	for x in range(len(trainingScenarios)):
+		dist = findEuclideanDistance(queryScenario, trainingScenarios[x], length)
+		distances.append((trainingScenarios[x], dist))
+		
+	distances.sort(key=operator.itemgetter(1))
+	neighbors = []
+	
+	for x in range(k):
+		neighbors.append(distances[x][0])
+		
+	return neighbors
+ 
+def predict(neighbors):
+	classVotes = {}
+	
+	for x in range(len(neighbors)):
+		response = neighbors[x][-1]
+		
+		if response in classVotes:
+			classVotes[response] += 1
+		else:
+			classVotes[response] = 1
+			
+	sortedVotes = sorted(classVotes.iteritems(), key=operator.itemgetter(1), reverse=True)
+	return sortedVotes[0][0]
+	
+# prepare data
+trainingScenarios = loadDataset('iris.data')
+k = 3
+queryScenario = [6.4, 2.8, 5.6, 2.2]
+
+#find KNN
+neighbors = getKNeighbors(trainingScenarios, queryScenario, k)
+result = predict(neighbors)
+print('Prediction: ', result)
+{% endhighlight %}
+
+Let's break it down:  
+{% highlight python %}
+def loadDataset(filename):
+	trainingScenarios=[]
+	
+	with open(filename, 'rb') as csvfile:
+	    lines = csv.reader(csvfile)
+	    dataset = list(lines)
+		
+	    for x in range(len(dataset)-1):
+	        for y in range(4):
+	            dataset[x][y] = float(dataset[x][y])
+	            trainingScenarios.append(dataset[x])
+				
+	return trainingScenarios
+{% endhighlight %}
+This function just loads data from a file [(this one)](https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data) into an array. We assume that it's  a csv with each line having this format:  
+  
+```
+scenariopoint1, scenariopoint2, scenariopoint3, scenariopoint4, outcome 
+```  
+  
+We turn it into a dictionary, append it to an array, and return it.
+
+{% highlight python %}
+def findEuclideanDistance(point1, point2, length):
+	distance = 0 
+	
+	for x in range(length):
+		distance += pow((point1[x] - point2[x]), 2)
+		
+	return math.sqrt(distance)
+{% endhighlight %}
+Here, we just implement the euclidean distance formula so we can use it later to find the nearest neighbors.
+
+{% highlight python %}
+def findKNearestNeighbors(trainingScenarios, queryScenario, k):
+	distances = []
+	length = len(queryScenario)-1
+	
+	for x in range(len(trainingScenarios)):
+		dist = findEuclideanDistance(queryScenario, trainingScenarios[x], length)
+		distances.append((trainingScenarios[x], dist))
+		
+	distances.sort(key=operator.itemgetter(1))
+	neighbors = []
+	
+	for x in range(k):
+		neighbors.append(distances[x][0])
+		
+	return neighbors
+{% endhighlight %}
+This is a simpler implementation of the above KNN formula; we don't try to find the arithmetic mean or the
+standard deviation - we essentially assume that all of our numbers are on the same scale (which they are in this example).  
+We loop trough the training scenario set, calculating it's distance from the query scenario, adding each to an array.
+Then it sorts the distances by ascending value, adds `k` number of neighbors to a list, and returns it.
+
+{% highlight python %}
+def predict(neighbors):
+	classVotes = {}
+	
+	for x in range(len(neighbors)):
+		response = neighbors[x][-1]
+		
+		if response in classVotes:
+			classVotes[response] += 1
+		else:
+			classVotes[response] = 1
+			
+	sortedVotes = sorted(classVotes.iteritems(), key=operator.itemgetter(1), reverse=True)
+	return sortedVotes[0][0]
+{% endhighlight %}
+Here, loop through each neighbor and give each scenario outcome a vote. We then return the outcome with
+the highest votes. 
+
+{% highlight python %} 
+# prepare data
+trainingScenarios = loadDataset('iris.data')
+k = 3
+queryScenario = [6.4, 2.8, 5.6, 2.2]
+
+#find KNN
+neighbors = getKNeighbors(trainingScenarios, queryScenario, k)
+result = predict(neighbors)
+print('Prediction: ', result)
+{% endhighlight %}
+
+We've finished declaring our functions and now we're ready to start the program. First we load the training dataset
+into avariable and declare how many `k` neighbors we want. Then we create a query scenario to test against.
+we use the `getKNearestNeighbors` function to get the `k` nearest neightbors, then feed it to the `predict` function
+and print it out.
+
+After running this, we should get `Iris-virginica` as the result. 
+   
+    
 ### Support Vector Machine 
 SVMs (Supprt Vector Machine) are a bit more involed. This algorithm achieves learning by finding the best
 hyperplane that separates all data points of one class from those of the other class. Support vectors are 
@@ -120,9 +284,9 @@ import matplotlib.pyplot as plt
 from sklearn import datasets
 from sklearn import svm
 {% endhighlight %}
-We're going to use [sci-kit learn](http://scikit-learn.org) to provide us the complicated 
-algorithm and sample data sets. We'll also use [matplotlib](http://matplotlib.org/)
-to show our results.
+Instead of starting from scratch, we're going to use [sci-kit learn](http://scikit-learn.org) to provide us the 
+algorithm and sample data sets to see how using tools to help with implementing machine learning algorithms can make things 
+a lot easier. We'll also use [matplotlib](http://matplotlib.org/) to help see our results.
 
 {% highlight python %}
 digits = datasets.load_digits()
@@ -152,7 +316,7 @@ print("Prediction: ", classifier.predict(digits.data[-1])
 plt.imshow(digits.images[-1], cmap=plt.cm.gray_r, interpolation="nearest")
 plt.show()
 {% endhighlight %}
-We now use pass the last coordinates that we had to the classifier's `predict` method and print it out
+We now use pass the last coordinates that we had to the classifier's `predict` function and print it out
 in order to test whether or not the algorithm worked. The last two lines use matplotlib to show us
 and image of what the last coordinates had in order for us to look at it and find out if the number was
 what the algorithm said it was. Here's the result:
@@ -184,7 +348,7 @@ $$ D = \left[ n\^1\_{S\_1} \ldots n\^k\_{S\_d} \right] \text{ where } n\_p\^i \t
 we can use this algorithm to find out which \\(n\\) that the query \\(q\\) predictors can be classified as:  
   
 * loop through each \\(n\^i\_S\\) in \\(D\\) calculating the probability rating and store them in set \\(R\\):
-$$ \prod_{i=1}^D \frac{P(q\^{i-1} | n) \cdot P(n)}{P(q)} $$
+$$ \prod_{i=1}^D \frac{P(q\^{i-1} \text{ } | \text{ } n) \cdot P(n)}{P(q)} $$
 * return the highest rating in \\(R\\)
 
 ### Conclusion
@@ -193,6 +357,8 @@ $$ \prod_{i=1}^D \frac{P(q\^{i-1} | n) \cdot P(n)}{P(q)} $$
 [Statsoft](http://www.statsoft.com/Textbook/k-Nearest-Neighbors#classification)  
 
 [Saravanan Thirumuruganathan](https://saravananthirumuruganathan.wordpress.com/2010/05/17/a-detailed-introduction-to-k-nearest-neighbor-knn-algorithm/)
+
+[Jason Brownlee](http://machinelearningmastery.com/tutorial-to-implement-k-nearest-neighbors-in-python-from-scratch/)
 
 [DataCamp](http://blog.datacamp.com/machine-learning-in-r/)
 
