@@ -84,6 +84,13 @@ which we need a [Quadratic Programming solver to solve.](http://doc.cgal.org/lat
 $$ b = y\_s - \sum_{m\in S} \alpha\_m y\_m x\_m \cdot x\_s $$
 where \\(S\\) is the set of indices of the Support Vectors. It is determined by finding the indices \\(i\\) where
 \\(\alpha\_i \gt 0\\). 
+  
+Now we can create an algorithm:    
+  
+* Create \\(H\\), where \\(H\_{ij} = y\_i y\_j x\_i \cdot x\_j \\)    
+* Find \\(\alpha\\) and \\(w\\) according to the above equations using a QP solver    
+* Determine the set of Support Vectors \\(S\\) by finding the indices such that \\(\alpha \gt 0\\)    
+* Each new point \\({x}'\\) is classified by evaluating \\({y}' = sgn(w \cdot {x}' + b)\\)  
 
 ### Naive Bayes
 This algorithm is based on Bayes Theorum.  
