@@ -29,8 +29,8 @@ $$ \sum_{i=0}^N \sqrt{(\frac {x - \overline{x}}{\sigma (x) })\^2 - y\_i\^2} $$
 
 where \\( x \\) is the original value and \\( \overline{x} \\) is the arithmetic mean of feature \\( x \\)
 across the dataset. With this equation, we can create an algorithm by letting matrix \\( D = N \times P \\) 
-represent our data where \\( P \\) scenarios \\( s\^1, ... , s\^P\\) where each senarion \\( s\^i \\) 
-contains \\( N \\) features \\( s\^i = [ s\_1\^i , ... , s\_N\^i]\\).  
+represent our data where \\( P \\) scenarios \\( s\^1, \ldots , s\^P\\) where each senarion \\( s\^i \\) 
+contains \\( N \\) features \\( s\^i = [ s\_1\^i , \ldots , s\_N\^i]\\).  
   
 We can let vector \\(r\\) store the output values of \\(M\\) nearest neighbors to query scenario \\(q\\). Let vector \\(o\\) 
 with length \\(P\\) accompeny the matrix, listing the output value \\(o\^i\\) for each scenario \\(s\^i\\). 
@@ -54,7 +54,7 @@ the data points that are closest to the separating hyperplane. Here's an illustr
 We start putting together the algorithm by having \\(L\\) training points where each input \\(x\_i\\)
 has \\(D\\) attributes (i.e. is of dimensionality \\(D\\) and is in one of the two classes \\(y\_i = -1 \text{ or } +1\\),
 i.e. out training data is of the form:  
-$$ \lbrace x\_i ,y\_i \rbrace \text{ where } i = 1 ... L, y\_i \in \lbrace -1 , 1 \rbrace , x \in \Re \^D $$
+$$ \lbrace x\_i ,y\_i \rbrace \text{ where } i = 1 \ldots L, y\_i \in \lbrace -1 , 1 \rbrace , x \in \Re \^D $$
 
 With this, we can implement an SVM by selecting variables \\(w\\) and \\(b\\) so that our training
 data can be described by \:
@@ -92,8 +92,34 @@ Now we can create an algorithm:
 * Determine the set of Support Vectors \\(S\\) by finding the indices such that \\(\alpha \gt 0\\)    
 * Each new point \\({x}'\\) is classified by evaluating \\({y}' = sgn(w \cdot {x}' + b)\\)  
 
+Applications of SVMs include pattern recognition and other classification type problems.
+
 ### Naive Bayes
-This algorithm is based on Bayes Theorum.  
+This algorithm is based on Bayes' rule, which states that if we know the probability \\(P(B\text{ }|\text{ }A)\\) 
+then we can find out the probability \\(P(A\text{ }|\text{ }B)\\) in terms of \\(P(B\text{ }|\text{ }A)\\).  
+ 
+This algorithm achieves learning by taking the query predictors and comparing it to those of each of the known outcomes,
+giving a probability rating for each. The outcome of the query is the one with the highest probability rating.  
+  
+That probability is given by the equation:
+$$ P(c \text{ }| \text{ }x) = \frac{P(x \text{ }| \text{ } c) P(c)}{P(x)} $$  
+Where \\(c\\) is the outcome and \\(x\\) is the predictor. So:  
+  
+* \\(P(c\text{ }| \text{ }x)\\) is the probability of outcome \\(c\\) given predictor \\(x\\)
+* \\(P(x\text{ }| \text{ }c)\\) is the is the probability of predictor \\(x\\) given outcome \\(c\\)  
+* \\(P(c)\\) is the original probability of \\(c\\)
+* \\(P(x)\\) is the original probability of \\(x\\)    
+
+When we let  
+$$ D = \left[ n\^1\_{S\_1} \ldots n\^k\_{S\_d} \right] \text{ where } n\_p\^i \text{ is the outcome } n \text{ with the set of } S \text{ predictors } $$
+we can use this algorithm to find out which \\(n\\) that the query \\(Q\\) predictors can be classified as:  
+  
+* loop through each \\(n\^i\_S\\) in \\(D\\) calculating the probability rating and store them in set \\(R\\):
+$$ \prod_{i=1}^D Q\^{i-1} \cdot P(n\^i) $$
+* return the highest rating in \\(R\\)
+
+
+
 ##### Bibliography
 [Statsoft](http://www.statsoft.com/Textbook/k-Nearest-Neighbors#classification)  
 
@@ -106,3 +132,7 @@ This algorithm is based on Bayes Theorum.
 [Tristan Fletcher](http://www.tristanfletcher.co.uk/SVM%20Explained.pdf)
 
 [Ram Narasimhan](http://stackoverflow.com/a/20556654/2229572)
+
+[Queen Mary University](https://www.eecs.qmul.ac.uk/~norman/BBNs/Bayes_rule.htm)
+
+[Dr. Saed Sayad](http://www.saedsayad.com/naive_bayesian.htm)
