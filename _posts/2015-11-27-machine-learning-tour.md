@@ -589,8 +589,10 @@ splitRatio = 0.67
 dataset = loadCsv('pima-indians-diabetes.data.csv')
 trainingSet, testSet = splitDataset(dataset, splitRatio)
 print('Split {0} rows into train={1} and test={2} rows').format(len(dataset), len(trainingSet), len(testSet))
+
 # prepare model
 summaries = summarizeByClass(trainingSet)
+
 # test model
 predictions = getPredictions(summaries, testSet)
 accuracy = getAccuracy(testSet, predictions)
@@ -602,10 +604,10 @@ Here is where the program start to actually run. First we declare the `splitRati
 of data/test that we want. We're saying we want 67% of the data to be training and 33% to go to testing the accuracy 
 of the algorithm.  
   
-We get the dataset [(find it here)](https://archive.ics.uci.edu/ml/machine-learning-databases/pima-indians-diabetes/pima-indians-diabetes.data) [and a description here](https://archive.ics.uci.edu/ml/machine-learning-databases/pima-indians-diabetes/pima-indians-diabetes.names)
+We get the dataset [(find it here)](https://archive.ics.uci.edu/ml/machine-learning-databases/pima-indians-diabetes/pima-indians-diabetes.data) [(and a description here)](https://archive.ics.uci.edu/ml/machine-learning-databases/pima-indians-diabetes/pima-indians-diabetes.names)
 and split it into the `trainingSet` and the `testSet`.  
   
-We then run the algorithm and test the accuracy. If you ran it, you should get ~76% 
+We then run the algorithm and test the accuracy. If you ran it, you should get ~76%.
  
 ### Conclusion
 These are just a few of the algorithms that can achieve learning. Machine learning can be a
