@@ -190,7 +190,7 @@ pre {
 
 pre code {
   padding: 0;
-  font-size: 100%;
+  font-size: 90%;
   color: inherit;
   background-color: transparent;
 }
@@ -263,13 +263,17 @@ tbody tr:nth-child(odd) th {
 }
 
 .container {
-  max-width: 70%;
+  max-width: 60%;
   padding: 2rem 1.5rem;
   margin-left:  auto;
   margin-right: auto;
   
   @media (min-width: 38rem){
     padding: 5rem 1rem;
+  }
+  
+  @media(max-width:400px){
+	  max-width: 80%;
   }
 }
 
