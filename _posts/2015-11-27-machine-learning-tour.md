@@ -17,10 +17,9 @@ we measures the distance between a query (unknown) scenario and a set of known s
 Here's a graph to illustrate (plusses and minuses are types of outcomes):
 
 ![KNN Graph](../images/knn1.jpg)
-> from [Statsoft](http://www.statsoft.com/Textbook/k-Nearest-Neighbors#classification)
-Let's dive into it:  
+> from [Statsoft](http://www.statsoft.com/Textbook/k-Nearest-Neighbors#classification)    
 
-Given some outcomes and a query scenario, the algorithm will pick the K (input by the user)
+Given some outcomes and a query scenario, the algorithm will pick the `K` (given beforehand)
 nearest scenarios (neighbors) to the query scenarios and determine their outcomes. It will
 determine that the outcome that occurs the most times around it will be the outcome of query
 scenario.
