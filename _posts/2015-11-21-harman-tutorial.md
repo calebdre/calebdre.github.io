@@ -3,10 +3,10 @@ layout: post
 title: How to use the Harman Android SDK
 ---
 
-In an attempt to be more developer friendly and to reach out to the tech community, Harman Kardon has released an SDK for their Omni speakers. Now, any developer with a speaker can create speaker-related apps with their products.   
+To be more developer friendly and reach out to the tech community, Harman Kardon has released an SDK for their Omni speakers. Now, any developer with a speaker can create speaker-related apps with their products.       
   
-  Here's the rub: their SDK is pretty terribly documented.  
-   
+This tutorial will aim to supplement their current documentation.  
+  
  [Carl Saldanha wrote a tutorial that shows how to use their SDK](http://cjds.github.io/me/2015/08/31/Harman-Kardon-SDK-For-Android/), but this tutorial will be more explanatory: I'll be introducing how to use the SDK by explaining, showing, and identifying some potential pitfalls. 
    
  Let's get into it!
