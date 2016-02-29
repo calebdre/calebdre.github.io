@@ -12,8 +12,8 @@ Here's what we'll be building:
   
 It'll be a personal site that establishes your official brand. It'll have links to other places on the internet
 where you can be found, a resume link, and a link to that will, when clicked, add open the user's email client to start an email to you.
-  
- ## 2. Text Editors
+    
+## 2. Text Editors
 The first thing we'll need to start this website is a good text editor. We need a place to write our code - and that's
 exactly what a text editor will do for us. There are many choices from [Notepad++](https://notepad-plus-plus.org/)
 to [Brackets](http://brackets.io/) to [Visual Studio Code](https://code.visualstudio.com/) and many many more.  
