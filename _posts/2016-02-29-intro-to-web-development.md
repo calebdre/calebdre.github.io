@@ -160,6 +160,7 @@ Your code should look like this:
 	<body>
 		<div class="content">
 			<h1>Hi, I'm Your Name</h1>
+			<h2>Your tagline</h2>
 			<p class="link-item-list">
 				<a class="link-item" href="your blog link">blog</a>
 				<a class="link-item" href="your facebook link">facebook</a>
@@ -233,7 +234,7 @@ h1{
 	margin-top: 0;
 }
 
-h3{
+h2{
 	font-size:25px;
 	font-weight: bolder;
 	color: #79C1FF;
