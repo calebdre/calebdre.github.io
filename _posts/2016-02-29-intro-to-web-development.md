@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Intro to web development
+title: Intro to Web Development
 ---
 
 In this tutorial i'll be teaching web development through walking through how to build your own site. As we build the
@@ -18,8 +18,8 @@ The first thing we'll need to start this website is a good text editor. We need 
 exactly what a text editor will do for us. There are many choices from [Notepad++](https://notepad-plus-plus.org/)
 to [Brackets](http://brackets.io/) to [Visual Studio Code](https://code.visualstudio.com/) and many many more.  
   
-The one we will be working with is Sublime Text 3. It's a simple editor that can become very powerful when you know its ins
-and outs. It's a very popular piece of software! [Download it here.](https://www.sublimetext.com/) If you have an editor
+The one we will be working with is [Sublime Text 3](https://www.sublimetext.com/). It's a simple editor that can become very powerful when you know its ins
+and outs. It's a very popular piece of software! If you have an editor
 that you already use and are familiar with, feel free to use that instead. 
 
 ## 3. Files
