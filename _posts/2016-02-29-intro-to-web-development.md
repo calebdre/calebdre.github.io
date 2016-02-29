@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Comsuming RESTful APIs on Android
+title: Intro to web development
 ---
 
 In this tutorial i'll be teaching web development through walking through how to build your own site. As we build the
