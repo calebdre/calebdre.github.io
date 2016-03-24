@@ -6,7 +6,7 @@ title: Intro to Android Development
 In this tutorial we will be going over how to create android apps. 
 There will be lots of new concepts that we'll need to go over. Let's get into it:  
 
-## What is an Android app?
+## What is Android?
 You're probably thinking that's a silly question, but it's important to know what platform it is exactly that you're
 building on. The Android OS is an open source project created by Google that aims to standardize phone operating systems. Before it, phone companies
 would have to create whole operating systems for every phone they wanted to sell. It cost a lot of time and money, but
