@@ -47,7 +47,7 @@ all you're really doing is generating HTML. That's it. The goal is to generate t
 that you need onto the webpage. For that reason, it's important to get a good understanding of how html works and be
 decent at creating html pages.  
   
-HTML (~~How to Meet Ladies~~ HyperText Markup Language) is the basic building block of the web.
+HTML (~How to Meet Ladies~ HyperText Markup Language) is the basic building block of the web.
 Browsers use HTML files to find out what content you want and how you want the page the be structured.
   
 [Here's an intro to HTML (article)](http://htmldog.com/guides/html/)  
@@ -78,7 +78,7 @@ to the browser.
   
 Once you have something to run your PHP scripts, you can check out these intro to PHP resources:  
   
-[Here's a general introduction to programming with php (playlist)](https://www.youtube.com/playlist?list=PLfdtiltiRHWFD41D_LDomY1Fb-O9MtFqq)
+[Here's a general introduction to programming with php (playlist)](https://www.youtube.com/playlist?list=PLfdtiltiRHWFD41D_LDomY1Fb-O9MtFqq)  
 [Here's a good resource too. Only the first 10 seconds are beginner-friendly (articles)](http://www.hackingwithphp.com/)  
 
 > Coming soon: Projects, The value of learning multiple languages  
