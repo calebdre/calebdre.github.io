@@ -343,13 +343,13 @@ This is just so we have references to these variables throughout the whole class
 Next, we'll add this code inside the `onCreate` method:  
   
 {% highlight java %}
+centerText = (TextView) findViewById(R.id.centerText);
+root = (RelativeLayout) findViewById(R.id.root);
+
 View topLeftSpace = findViewById(R.id.topLeftButton);
 View topRightSpace = findViewById(R.id.topRightButton);
 View bottomRightSpace = findViewById(R.id.bottomRightButton);
 View bottomLeftSpace = findViewById(R.id.bottomLeftButton);
-
-centerText = (TextView) findViewById(R.id.centerText);
-root = (RelativeLayout) findViewById(R.id.root);
 {% endhighlight %}  
   
 The `findViewById` method is provided by the `AppCompatActivity` class. It returns a `View` object
@@ -450,12 +450,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        centerText = (TextView) findViewById(R.id.centerText);
+        root = (RelativeLayout) findViewById(R.id.root);
+
         View topLeftSpace = findViewById(R.id.topLeftButton);
         View topRightSpace = findViewById(R.id.topRightButton);
         View bottomRightSpace = findViewById(R.id.bottomRightButton);
         View bottomLeftSpace = findViewById(R.id.bottomLeftButton);
-        final TextView centerText = (TextView) findViewById(R.id.centerText);
-        final RelativeLayout root = (RelativeLayout) findViewById(R.id.root);
 
         topLeftSpace.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -496,8 +497,7 @@ public class MainActivity extends AppCompatActivity {
 }
 {% endhighlight %}  
   
-Congratulations, you just finished your first android app! Woo!!  
-  
+Run the app and voila, you have a fully functional app!    
 But wait.. what happens when you change orientation?
 
 ![Changing orientation](https://i.imgur.com/xFEf5Er.gif)  
