@@ -20,9 +20,7 @@ Java because, at the time, that was the language that most developers knew. Now,
 to create Android apps, but we'll be doing it the easiest/traditional way.  
   
 The official android IDE is Android Studio. [Download it here](http://developer.android.com/sdk/index.html) if you haven't already (it'll take ~20 minutes.)
-If you don't have an Android phone, [install Genymotion](https://www.genymotion.com/pricing-and-licensing/) (the free option is under 'individual'). 
-It's an android emulator - it'll let you run the android OS on your computer so you can run your android apps on it if
-you don't have a device.  
+If you don't have an Android device, that's fine. Android studio has a great emulator that's really fast and works well. You can use that instead.
   
 Let's jump into making an app!!  
   
