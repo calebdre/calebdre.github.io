@@ -70,9 +70,9 @@ XML stands for Extensible Markup Language, and it's what android uses to create 
 Let's get an idea of waht XML looks like this:  
   
 {% highlight xml %}
-	<TagName attributeName="value">
-		<ChildTagName />
-	</TagName>
+<TagName attributeName="value">
+    <ChildTagName />
+</TagName>
 {% endhighlight %}  
   
 These are called `tags`. They begin with a `<` and end with a `>`. The name of the tag comes after the `<`,
@@ -333,15 +333,25 @@ We can access them via the same hierarchy (`res/layout/activity_main.xml` and be
   
 ## Wiring up the Elements
 Now we need to get references for all the elements we have in the XML so that we can do something when someone
-taps on them. Add this code to the `onCreate` method:  
+taps on them. First we'll add these above the `onCreate` method:  
+  
+{% highlight java %}
+private RelativeLayout root;
+private TextView centerText;
+{% endhighlight %}  
+  
+This is just so we have references to these variables throughout the whole class. We'll need them in more than one place.  
+  
+Next, we'll add this code inside the `onCreate` method:  
   
 {% highlight java %}
 View topLeftSpace = findViewById(R.id.topLeftButton);
 View topRightSpace = findViewById(R.id.topRightButton);
 View bottomRightSpace = findViewById(R.id.bottomRightButton);
 View bottomLeftSpace = findViewById(R.id.bottomLeftButton);
-TextView centerText = (TextView) findViewById(R.id.centerText);
-RelativeLayout root = (RelativeLayout) findViewById(R.id.root);
+
+centerText = (TextView) findViewById(R.id.centerText);
+root = (RelativeLayout) findViewById(R.id.root);
 {% endhighlight %}  
   
 The `findViewById` method is provided by the `AppCompatActivity` class. It returns a `View` object
@@ -351,6 +361,63 @@ We pass that into the `findViewById` method.
 For the `centerText` variable, we're trying to get a `TextView` object rather than a `View` object so we can get
 all of the `TextView` specific methods, so we cast the result of the method to a `TextView`. Same thing with `root`.  
   
+## ColorStates
+Before we get into listening for touches, we need a mechanism through which we can easily tell MainActivity to change the color
+of the background and change the message. We'll create a `ColorState` class that will hold whatever color and message we want 
+to use and create a method called `applyColorState` take accepts a `ColorState` object and adjusts accordingly.  
+  
+Here's the `ColorState` class:  
+  
+{% highlight java %}
+public class ColorState implements Serializable {
+
+    private @ColorInt int color;
+    private String message;
+
+    public ColorState(@ColorInt int color, String message) {
+        this.color = color;
+        this.message = message;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+}
+{% endhighlight %}  
+  
+This class has just a constructor that accepts the two values that we want to hold, the color and the message, and getters so that
+the `MainActivity` get use them. Something that you might not have seen before is the `@ColorInt` annotation. This helps enforce
+that the variable `color` isn't just some integer - it absolutely has to be one of the color integers. Intellij will complain if
+someone passes in an integer that isn't a colorint. Intellij provides other annotations like this that enforce other primitive times to 
+be certain values.  
+  
+Some else that might be unfamiliar is the `Serializable` interface that the class implements. I'll explain what this is later on.  
+  
+Here's the code for the `applyColorState` method:  
+  
+{% highlight java %}
+private void applyColorState(ColorState colorState) {
+    root.setBackgroundColor(colorState.getColor());
+    centerText.setText(colorState.getMessage());
+}
+{% endhighlight %} 
+
+`setBackgroundColor` is the method that we use on views to, you guessed it, *set the background color*. For any `TextView`, 
+`setText` is the method we use to set the text. So whenever the user taps on a corner, we'll use this method to add the color
+and change the text.  
+  
+One last thing we need to do is to keep track of what the current applied `ColorState` is - it'll come in handy later on.
+Add this above the `onCreate` method:
+
+{% highlight java %}
+private ColorState currentColorState;
+{% endhighlight %} 
+
+  
 ## Listening for Touches  
 Next we're going to set up event listeners so that we can respond to when the user taps each corner of the screen:  
     
@@ -358,21 +425,27 @@ Next we're going to set up event listeners so that we can respond to when the us
 topLeftSpace.setOnClickListener(new View.OnClickListener() {
 	@Override
 	public void onClick(View v) {
-		root.setBackgroundColor(Color.RED);
-		centerText.setText("You clicked the red corner!");
+        ColorState colorState = new ColorState(Color.RED, "You clicked the red corner!");
+        applyColorState(colorState);
+        currentColorState = colorState;
 	}
 });
 {% endhighlight %}  
   
 Here, we call the `setOnClickListener` function, which accepts an `OnClickListener` interface. Instead of creating
 a new class, we're going to write in inline. The only method on the interface is `onClick`. It gives us a view,
-the one we clicked, in the method to do what we want. When clicked, call the `setBackgroundColor` method on the 
-`RelativeLayout` view that we created earlier. We also set the text of the `TextView`.  
+the one we clicked, in the method to do what we want. When clicked, we create a new `ColorState` object with the 
+color and the message we want, call te `applyColorState` method, and then set the `currentColorState` variable.
   
 We do the same for the other corners. Your `onCreate` method should look something like this:  
   
 {% highlight java %}
 public class MainActivity extends AppCompatActivity {
+
+    private RelativeLayout root;
+    private TextView centerText;
+
+    private ColorState currentColorState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -389,32 +462,36 @@ public class MainActivity extends AppCompatActivity {
         topLeftSpace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                root.setBackgroundColor(Color.RED);
-                centerText.setText("You clicked the red corner!");
+                ColorState colorState = new ColorState(Color.RED, "You clicked the red corner!");
+                applyColorState(colorState);
+                currentColorState = colorState;
             }
         });
 
         topRightSpace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                root.setBackgroundColor(Color.CYAN);
-                centerText.setText("You clicked the cyancorner!");
+                ColorState colorState = new ColorState(Color.CYAN, "You clicked the cyan corner!");
+                applyColorState(colorState);
+                currentColorState = colorState;
             }
         });
 
         bottomLeftSpace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                root.setBackgroundColor(Color.BLUE);
-                centerText.setText("You clicked the blue corner!");
+                ColorState colorState = new ColorState(Color.BLUE, "You clicked the blue corner!");
+                applyColorState(colorState);
+                currentColorState = colorState;
             }
         });
 
         bottomRightSpace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                root.setBackgroundColor(Color.MAGENTA);
-                centerText.setText("You clicked the magenta corner!");
+                ColorState colorState = new ColorState(Color.MAGENTA, "You clicked the magenta corner!");
+                applyColorState(colorState);
+                currentColorState = colorState;
             }
         });
     }
@@ -422,6 +499,87 @@ public class MainActivity extends AppCompatActivity {
 {% endhighlight %}  
   
 Congratulations, you just finished your first android app! Woo!!  
+  
+But wait.. what happens when you change orientation?
+
+![Changing orientation](https://i.imgur.com/xFEf5Er.gif)  
+  
+What's going on when we change the phone's orientation? Why does it reset?  
+This is all part of Android's activity lifecycle:  
+  
+![Android activity lifecycle](https://developer.android.com/guide/components/images/activity_lifecycle.png)  
+  
+When certain events happen on the phone that Android lets you hook into. These events are sometimes produced by 
+the android system itself or by the user. For example, the user can change the orientation of their device like we just saw,
+or they can switch apps or close your app completely. The user could be running out of memory - at that point Android will start
+closing apps to free up memory. In all of these cases, Android provides opportunities for your app to react to each event 
+in the form of lifecycle methods. 
+  
+Each of these lifecycle methods, `onCreate`, `onStart`, `onResume`, etc. are different checkpoint that Android
+gives your app the opportunity to do something with. When the user changes the phone's orientation, Android
+destroys your activity and recreates them, going through the second half of the activity lifecycle and then the first.  
+  
+In order to provide a good user experience, the app should be in the same state when they change orientation: if they
+clicked on the red corner, the background should stay red and the text should stay the same. Luckily, Android has a lifecycle
+method named `onSaveInstanceState` that gets called just before the activity gets destroyed so that we can save the state
+that the it's in and restore it when it gets created again.  
+  
+Let's put this at the top of the class:  
+  
+{% highlight java %}  
+  
+private static final String KEY_INSTANCE_COLORSTATE = "key_instance_colorstate";  
+  
+{% endhighlight %}  
+  
+We're going to put the current colorstate inside of a `Bundle` object. Android frequently uses these in order to pass
+values around between different places in the framework. To store a value, you need to make sure to have a key in order 
+to put and retrieve objects you store there. It's usually good to make them constants so that you can be sure that they're never changed.
+  
+Here's the `onSaveInstanceState` method implementation:  
+
+{% highlight java %}
+@Override
+protected void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putSerializable(KEY_INSTANCE_COLORSTATE, currentColorState);
+}
+{% endhighlight %}
+
+In this method, java gives you the `outState` variable - that's the bundle that we have to put anything we need to recreate
+the state that the activity was in. Here, we only need to pass in the `currentColorState` variable. It is really
+easy to pass primitive values around Androud, however passing objects are a lot more difficult. They either have to be 
+[parcelable](https://guides.codepath.com/android/using-parcelable) or [serializable](https://developer.android.com/reference/java/io/Serializable.html) objects
+objects. We use Serializable because it's a lot easier to implement, however parcelable is much faster.  
+  
+Now that we have Android saving the state before the activity is destroyed, we need to actually recreate that state
+when the activity gets restored. For that, we'll go back to the `onCreate` method: remember the `Bundle savedInstanceState` parameters
+that were passed into the method that we didn't use? We're about to use them now:  
+  
+{% highlight java %}
+@Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        centerText = (TextView) findViewById(R.id.centerText);
+        root = (RelativeLayout) findViewById(R.id.root);
+
+        if (savedInstanceState != null) {
+            currentColorState = (ColorState) savedInstanceState.getSerializable(KEY_INSTANCE_COLORSTATE);
+            applyColorState(currentColorState);
+        }
+        
+        // rest of the code
+{% endhighlight %}  
+
+Notice we added the last 4 lines of code. We check to see if there is a state that we can restore from (checking if `savedInstanceState` not is null),
+and if there is, we call `savedInstanceState.getSerializable` using the same static key as we did to store the object. The method returns `Object`, 
+so we have to cast it to what we want. Then we just call the `applyColorState` method with the restored state and we're off!  
+  
+![All ficed gif](https://i.imgur.com/IlM7KAH.gif)  
+  
+Congratulations, you built your first app!
   
 ## Learning More  
 I bet you're ready to learn a bunch more stuff. Here are some resources to help you out:  
